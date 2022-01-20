@@ -2,7 +2,20 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-direction: column;
     margin: 0px;
+}
+
+.content-box {
+    display: flex;
+    justify-content: center;
+}
+
+.root-content {
+    position: absolute;
+    z-index: 0;
+    display: flex;
+    justify-content: center;
 }
 
 
@@ -30,4 +43,28 @@ body {
 .menu-bar__right {
     color: white;
     margin-right: 10px;
+}
+
+
+/* 로그인, 회원가입 페이지 */
+
+.login-signup {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-wrap: wrap;
+    width: 500px;
+    margin-top: 80px;
+}
+
+.login-signup__input {
+    width: 470px;
+    text-align: center;
+    margin: 20px;
+}
+
+.login-signup__button {
+    width: 210px;
+    text-align: center;
+    margin: 20px;
 }
