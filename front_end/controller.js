@@ -1,8 +1,15 @@
+import * as view from "./view/view.js";
+
+view.pageInit();
+
 export function spaInit() {
     /**************버튼 누르면 페이지 이동 ************/
     document.addEventListener("DOMContentLoaded", () => {
         document.body.addEventListener("click", (e) => {
             if (e.target.matches("[data-link]")) {
+                if (e.target.dataset.link === '')
+                    history.pushState(null, null, location.origin);
+
                 history.pushState(null, null, e.target.dataset.link);
                 router();
             }
@@ -18,8 +25,9 @@ export function spaInit() {
 
 async function router() { //라우팅 수행
     const routes = [
-        { path: "/", view: () => console.log("draw Main page") },
-        { path: "/log-in", view: () => console.log("draw log-in page") }
+        { path: "/", view: view.drawMainPage },
+        { path: "/login", view: view.drawLoginPage },
+        { path: "/sign-up", view: view.drawSignUpPage }
     ];
 
     const pageMatches = routes.map((route) => {
