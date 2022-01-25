@@ -1,24 +1,27 @@
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 
-passport.use('local-login', new LocalStrategy({
+passport.use(new LocalStrategy({
     usernameField: 'id',
     passwordField: 'password',
     passReqToCallback: true
-}, function(req, id, password, done) {
-    console.log('passport의 local-login : ', id, password)
-
-    if (id != 'test' || password != '123') {
-        console.log('비밀번호 불일치!')
-        return done(null, false, req.flash('loginMessage', '비밀번호 불일치!'));
-    }
-
-    console.log('비밀번호 일치!')
-    return done(null, {
-        id: id,
-        password: password
+}, function(id, password, done) {
+    User.findOne({ user_id: id }, function(err, user) {
+        console.log(`${id}   ${password}`)
+            //DB 연결 실패 등의 에러
+        if (err) { return done(err); }
+        //username 자체가 DB에 없을 때
+        if (!user) {
+            return done(null, false, { message: 'Incorrect username.' });
+        }
+        //username은 맞지만 비밀번호가 틀릴 때
+        if (!user.validPassword(password)) {
+            return done(null, false, { message: 'Incorrect password.' });
+        }
+        //인증 성공
+        return done(null, user);
     });
-}))
+}));
 
 passport.serializeUser(function(user, done) {
     console.log('serializeUser() 호출됨.');

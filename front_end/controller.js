@@ -23,7 +23,7 @@ export function spaInit() {
     })
 }
 
-async function router() { //라우팅 수행
+function router() { //라우팅 수행
     const routes = [
         { path: "/", view: view.drawMainPage },
         { path: "/login", view: view.drawLoginPage },
@@ -40,4 +40,35 @@ async function router() { //라우팅 수행
     let match = pageMatches.find((pageMatch) => pageMatch.isMatch);
     console.log(pageMatches);
     match.route.view();
+}
+
+export function loginProcess() {
+    const id = document.getElementById("id").value;
+    const password = document.getElementById("password").value;
+
+    axios.post("/login", {
+            id: id,
+            password: password,
+        })
+        .then((res) => {
+            console.log(res);
+        })
+        .catch((err) => {
+            console.log(err);
+        });
+}
+
+export function signUpProcess() {
+    const id = document.getElementById("id").value;
+    const password = document.getElementById("password").value;
+    axios.post("/sign-up", {
+            id: id,
+            password: password,
+        })
+        .then((res) => {
+            console.log(res);
+        })
+        .catch((err) => {
+            console.log(err);
+        });
 }

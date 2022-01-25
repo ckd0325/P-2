@@ -4,16 +4,14 @@ const expressSession = require('express-session');
 const passport = require('./passport.js');
 const flash = require('connect-flash');
 
-const { sequelize } = require('./models');
+const { User, sequelize } = require('./database/models');
 
 const app = express();
-sequelize.sync({ force: false })
-    .then(() => {
-        console.log('DB connection is successful!!');
-    })
-    .catch((err) => {
-        console.error(err);
-    });
+
+sequelize
+    .sync()
+    .then(() => console.log('connected database'))
+    .catch(err => console.error('occurred error in database connecting', err))
 
 app.use(express.static(__dirname + "/front_end/view"));
 app.use(express.static(__dirname + "/front_end"));
@@ -33,15 +31,27 @@ app.get("/", (req, res) => { //첫 연결: 클라이언트에 html 전송
     res.sendFile(path.resolve("front_end", "view", "page.html"));
 });
 
-app.post("/login", passport.authenticate('local-login', {
+app.post("/login", passport.authenticate('local', {
     successRedirect: '/',
-    failureRedirect: '/login',
+    failureRedirect: '/',
     successFlash: "welcome",
     failureFlash: true,
 }));
 
 app.get("/login", (req, res) => {
     console.log("login fail");
+})
+
+app.post("/sign-up", (req, res) => {
+    const { id } = req.body;
+    const { password } = req.body;
+    console.log(`${id}   ${password}`);
+    console.log(req.body);
+
+    User.create({
+        user_id: `${id}`,
+        user_pw: `${password}`
+    })
 })
 
 app.listen(process.env.PORT || 8080, () => console.log("Server runing ..."));

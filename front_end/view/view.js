@@ -1,5 +1,6 @@
 import { spaInit } from "../controller.js";
 import { $rootContent } from "../model/html_element.js";
+import { loginProcess, signUpProcess } from "../controller.js";
 
 export function pageInit() {
     document.body.innerHTML = `
@@ -31,19 +32,20 @@ export function drawLoginPage() {
       <input class="login-signup__button" id="login-button" type="submit" name="log-in" value="로그인"/>
     </form>
     `;
-
+    //document.querySelector('#login-button').addEventListener("click", loginProcess)
 }
 
 export function drawSignUpPage() {
     document.querySelector('.root-content').innerHTML = `
-  <form class="login-signup">
-    <input class="login-signup__input" type="text" name="id" placeholder="아이디를 입력해주세요">
-    <input class="login-signup__input" type="text" name="password" placeholder="비밀번호를 입력해주세요">
+  <div class="login-signup">
+    <input class="login-signup__input" id="id" type="text" name="id" placeholder="아이디를 입력해주세요">
+    <input class="login-signup__input" id="password" type="password" name="password" placeholder="비밀번호를 입력해주세요">
     <input class="login-signup__input" type="text" name="region" placeholder="지역을 입력해주세요">
     <input class="login-signup__button" type="button" name="cancel" value="취소" data-link="login">
-    <input class="login-signup__button" type="submit" name="sign-up" value="회원가입">
-  </form>
-  `
+    <input class="login-signup__button" id="sign-up-button" type="button" name="sign-up" value="회원가입" data-link="login">
+  </div>
+  `;
+    document.querySelector('#sign-up-button').addEventListener("click", signUpProcess)
 }
 
 
